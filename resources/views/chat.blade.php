@@ -30,3 +30,7 @@
         </div>
     </div>
 @endsection
+
+@push('header.javascript')
+    <script src="{{ asset('js/chat.js') }}" defer></script>
+@endpush

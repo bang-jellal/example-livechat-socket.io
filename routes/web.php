@@ -22,5 +22,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['middleware' => 'auth'], function() {
     Route::get('/chat', 'ChatController@index')->name('chat');
     Route::get('/chat/user', 'ChatController@user');
+    Route::post('/chat/add-chat', 'ChatController@saveChat');
 });
 

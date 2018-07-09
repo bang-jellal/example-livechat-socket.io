@@ -76,6 +76,7 @@ const chat = {
             message: message
         };
         socket.emit('chat-message', data);
+        saveToDatabase(data);
     },
 
     loginUser: (user) => {
@@ -121,6 +122,17 @@ const chat = {
         $messages[0].scrollTop = $messages[0].scrollHeight;
     }
 };
+
+function saveToDatabase(data) {
+    $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }} );
+    $.ajax({
+        type: 'POST',
+        url: '/chat/add-chat',
+        data: {
+            data: data,
+        },
+    });
+}
 
 
 /**
