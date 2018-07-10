@@ -3695,7 +3695,6 @@ var $currentInput = void 0;
  */
 $(function () {
     $.get("/chat/user", function (data, status) {
-        console.log(status);
         if (status === 'success') {
             window.userNameChat = data.name;
             chat.handlePressEnter();
@@ -3753,6 +3752,11 @@ var chat = {
         };
         socket.emit('chat-message', data);
         saveToDatabase(data);
+    },
+
+    notificationMessage: function notificationMessage(data) {
+        socket.emit('notification', data);
+        $.notify("New Message From " + data.user, "warning");
     },
 
     loginUser: function loginUser(user) {
@@ -3822,6 +3826,9 @@ socket.on('user-join', function (data) {
 });
 socket.on('user-unjoin', function (data) {
     chat.log(data + ' left this room');
+});
+socket.on('notification', function (data) {
+    chat.notificationMessage(data);
 });
 
 /***/ }),

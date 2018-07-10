@@ -21,7 +21,6 @@ let $currentInput;
  */
 $(function() {
     $.get("/chat/user", function(data, status) {
-        console.log(status);
         if (status === 'success') {
             window.userNameChat = data.name;
             chat.handlePressEnter();
@@ -77,6 +76,11 @@ const chat = {
         };
         socket.emit('chat-message', data);
         saveToDatabase(data);
+    },
+
+    notificationMessage: (data) => {
+        socket.emit('notification', data);
+        $.notify("New Message From " + data.user, "warning");
     },
 
     loginUser: (user) => {
@@ -149,4 +153,7 @@ socket.on('user-join', (data) => {
 });
 socket.on('user-unjoin', (data) => {
     chat.log(data + ' left this room');
+});
+socket.on('notification', function(data){
+    chat.notificationMessage(data);
 });

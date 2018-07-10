@@ -3,17 +3,18 @@ var server = require('http').Server(express);
 var io = require('socket.io')(server);
 
 io.on('connection', function (socket) {
-  
+
   console.log("new client connected");
+  console.log('made socket connection', socket.id);
 
   socket.on('chat-message', function (data) {
-    
-    var res = data;
+      var res = data;
 
-    console.log('chat-message', JSON.stringify(res));
+      console.log('chat-message', JSON.stringify(res));
 
-    io.emit('chat-message', res);
+      io.emit('chat-message', res);
 
+      socket.broadcast.emit('notification', res);
   });
 
 
@@ -29,7 +30,7 @@ io.on('connection', function (socket) {
   socket.on('disconnect', function(data) {
 
     console.log('disconnect');
-    
+
     io.emit('user-unjoin', 'one user');
   });
 

@@ -33,4 +33,5 @@
 
 @push('header.javascript')
     <script src="{{ asset('js/chat.js') }}" defer></script>
+    <script src="{{ asset('js/plugins/notify.js') }}" defer></script>
 @endpush
